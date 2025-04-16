@@ -26,7 +26,14 @@ public class UserService {
 
     //Registro de usuario
     public void save(User user) {
-        String input = user.getIdUsuario() + user.getContraseniaUsuario();
+        int id = user.getIdUsuario();
+
+        // Verifica si el ID ya existe en la base de datos
+        if (userRepository.existsById(id)) {
+            throw new IllegalArgumentException("Este ID ya está en uso por otro usuario.");
+        }
+
+        String input = id + user.getContraseniaUsuario();
         String hashedPassword = aplicarMD5Recursivo(input, 10);
         user.setContraseniaUsuario(hashedPassword);
         userRepository.save(user);

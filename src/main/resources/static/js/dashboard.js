@@ -14,7 +14,7 @@ function updateUser() {
     const nuevoNombre = document.getElementById("newName").value;
     const nuevaPass = document.getElementById("newPass").value;
 
-    fetch("/api/usuarios/update", {
+    fetch("/usuarios/update", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
@@ -37,7 +37,7 @@ function updateUser() {
 function deleteUser() {
     const pass = document.getElementById("deletePass").value;
 
-    fetch("/api/usuarios/delete", {
+    fetch("/usuarios/delete", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({

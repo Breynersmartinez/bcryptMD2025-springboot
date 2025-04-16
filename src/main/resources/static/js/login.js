@@ -2,7 +2,7 @@ function loginUser() {
     const id = document.getElementById("loginId").value;
     const pass = document.getElementById("loginPass").value;
 
-    fetch("/api/usuarios/login", {
+    fetch("/usuarios/login", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ idUsuario: parseInt(id), contraseniaUsuario: pass })
@@ -12,7 +12,7 @@ function loginUser() {
         if (success) {
             localStorage.setItem("userId", id);
             // Obtener nombre
-            fetch(`/api/usuarios/${id}`)
+            fetch(`/usuarios/${id}`)
                 .then(res => res.json())
                 .then(data => {
                     localStorage.setItem("userName", data.nombreUsuario);

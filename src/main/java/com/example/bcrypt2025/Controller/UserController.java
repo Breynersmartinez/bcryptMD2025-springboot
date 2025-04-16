@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/usuarios")
+@RequestMapping("/usuarios")
 public class UserController {
 
 
@@ -47,10 +47,15 @@ public class UserController {
 
  //Registro de usuario
     @PostMapping
-
-    public void getAll(@RequestBody User user)
-    {
-        userService.save(user);
+    public ResponseEntity<?> registerUser(@RequestBody User user) {
+        try {
+            userService.save(user);
+            return ResponseEntity.ok("Usuario registrado correctamente.");
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error interno al registrar el usuario.");
+        }
     }
 
 //Cambio de usuario  o contraseña
