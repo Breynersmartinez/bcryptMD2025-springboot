@@ -17,7 +17,7 @@ Este proyecto es una aplicacion web construida con **Spring Boot**, que permite 
 ###  Login
 - Se verifica la combinación ID + contraseña ingresada (hasheada) con la almacenada en la base de datos.
 
-### 🛠 Actualización de usuario
+###  Actualización de usuario
 - Solo es posible si la contraseña actual es válida.
 - Permite cambiar el nombre y la contraseña (ambos opcionales).
 
