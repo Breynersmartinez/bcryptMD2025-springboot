@@ -98,7 +98,7 @@ public class UserService {
     }
 
 
-    // MD5 recursivo
+    // Metodo  MD5 recursivo
     private String aplicarMD5Recursivo(String input, int veces) {
         String resultado = input;
         for (int i = 0; i < veces; i++) {

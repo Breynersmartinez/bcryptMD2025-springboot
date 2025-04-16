@@ -6,6 +6,27 @@
 Este proyecto es una aplicacion web construida con **Spring Boot**, que permite gestionar usuarios en una base de datos MySQL. Su enfoque principal es el almacenamiento y validación segura de contraseñas mediante **hashing recursivo con MD5** (10 iteraciones).
 
 ---
+## Para ejecutar la aplicacion localmente
+
+- Clona el repositorio
+
+```bash
+git clone https://github.com/tu-usuario/tu-repo.git
+cd tu-repo
+```
+
+️## Configura la base de datos
+- Abre MySQL y crea una base de datos
+
+### Ejecuta el backend
+- Desde la terminal, estando en el directorio del proyecto, corre:
+- También puedes hacerlo desde tu IDE (clic derecho sobre la clase con @SpringBootApplication → Run).
+
+### Ejecuta el frontend (estático)
+- Abre el navegador de tu preferencia 
+- Ejecute la aplicacion de forma local http://localhost:8080
+
+
 
 
 ##  Funcionalidades principales
