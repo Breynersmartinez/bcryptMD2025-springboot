@@ -76,23 +76,23 @@ bcrypt2025
 
 ### `UserController.java`
 - Expone los endpoints REST para:
-  - `GET /api/usuarios/{id}`: obtener usuario.
-  - `POST /api/usuarios`: registrar.
-  - `POST /api/usuarios/update`: actualizar.
-  - `POST /api/usuarios/delete`: eliminar.
-  - `POST /api/usuarios/login`: login.
+  - `GET /usuarios/{id}`: obtener usuario.
+  - `POST /usuarios`: registrar.
+  - `POST /usuarios/update`: actualizar.
+  - `POST /usuarios/delete`: eliminar.
+  - `POST /usuarios/login`: login.
 
 ---
 
 ## 🧪 Endpoints REST
 
-| Método | Endpoint                    | Descripción                            |
-|--------|-----------------------------|----------------------------------------|
-| GET    | `/api/usuarios/{idUsuario}` | Obtener usuario por ID (sin contraseña)|
-| POST   | `/api/usuarios`             | Registrar nuevo usuario
-| POST   | `/api/usuarios/login`       | Validar login con ID y contraseña      |
-| POST   | `/api/usuarios/update`      | Actualizar nombre/contraseña           |
-| POST   | `/api/usuarios/delete`      | Eliminar usuario con contraseña        |
+| Método | Endpoint          | Descripción                            |
+|--------|-------------------|----------------------------------------|
+| GET    | `/usuarios/{idUsuario}` | Obtener usuario por ID (sin contraseña)|
+| POST   | `/usuarios`       | Registrar nuevo usuario
+| POST   | `/usuarios/login` | Validar login con ID y contraseña      |
+| POST   | `/usuarios/update` | Actualizar nombre/contraseña           |
+| POST   | `/usuarios/delete` | Eliminar usuario con contraseña        |
 
 ---
 
