@@ -1,35 +1,12 @@
 
-# 📦 Proyecto: `bcrypt2025`
+#  Proyecto: `bcrypt2025`
 
-## 🧾 Descripción general
+##  Descripción general
 
 Este proyecto es una aplicacion web construida con **Spring Boot**, que permite gestionar usuarios en una base de datos MySQL. Su enfoque principal es el almacenamiento y validación segura de contraseñas mediante **hashing recursivo con MD5** (10 iteraciones).
 
 ---
 
-## 📂 Estructura del Proyecto
-
-```
-bcrypt2025
-├── Controller
-│   └── UserController.java
-├── DTO
-│   ├── DeleteUserDTO.java
-│   └── UpdateUserDTO.java
-├── MD5
-│   └── MD5.java
-├── Model
-│   └── User.java
-├── Repository
-│   └── UserRepository.java
-├── Service
-│   └── UserService.java
-├── resources
-│   └── application.properties
-└── pom.xml
-```
-
----
 
 ##  Funcionalidades principales
 
@@ -84,7 +61,7 @@ bcrypt2025
 
 ---
 
-## 🧪 Endpoints REST
+##  Endpoints REST
 
 | Método | Endpoint          | Descripción                            |
 |--------|-------------------|----------------------------------------|
@@ -96,7 +73,7 @@ bcrypt2025
 
 ---
 
-## ⚙️ Requisitos del sistema
+##  Requisitos del sistema
 
 - Java 17
 - Maven 3.6+
@@ -105,7 +82,7 @@ bcrypt2025
 
 ---
 
-## 📦 Dependencias (en `pom.xml`)
+##  Dependencias (en `pom.xml`)
 ```xml
 <dependency>
     <groupId>org.springframework.boot</groupId>
