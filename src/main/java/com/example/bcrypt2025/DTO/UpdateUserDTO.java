@@ -2,11 +2,12 @@ package com.example.bcrypt2025.DTO;
 
 public class UpdateUserDTO {
     private int idUsuario;
-    private String contraseniaActual;
+    private String contraseniaActual; // Ya no se utilizará pero se mantiene para compatibilidad
     private String nuevoNombreUsuario;
     private String nuevaContrasenia;
 
-    // Getters y setters
+    public UpdateUserDTO() {
+    }
 
     public int getIdUsuario() {
         return idUsuario;

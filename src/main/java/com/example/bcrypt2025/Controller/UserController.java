@@ -1,36 +1,26 @@
 package com.example.bcrypt2025.Controller;
 
-
-import com.example.bcrypt2025.DTO.DeleteUserDTO;
 import com.example.bcrypt2025.DTO.UpdateUserDTO;
 import com.example.bcrypt2025.Model.User;
-
 import com.example.bcrypt2025.Service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/usuarios")
 public class UserController {
 
-
-
     @Autowired
-
     private UserService userService;
-
-
 
     @GetMapping("/{idUsuario}")
     public ResponseEntity<?> getById(@PathVariable("idUsuario") int idUsuario) {
@@ -45,7 +35,7 @@ public class UserController {
         }
     }
 
- //Registro de usuario
+    // Registro de usuario
     @PostMapping
     public ResponseEntity<?> registerUser(@RequestBody User user) {
         try {
@@ -58,33 +48,26 @@ public class UserController {
         }
     }
 
-//Cambio de usuario  o contraseña
+    // Cambio de usuario o contraseña - sin validación de contraseña
     @PostMapping("/update")
     public ResponseEntity<String> updateUser(@RequestBody UpdateUserDTO data) {
-        boolean updated = userService.updateUserWithValidation(data);
+        boolean updated = userService.updateUser(data);
 
         if (updated) {
-            return ResponseEntity.ok(" Usuario actualizado correctamente.");
+            return ResponseEntity.ok("Usuario actualizado correctamente.");
         } else {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(" Contraseña actual incorrecta o usuario no encontrado.");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Usuario no encontrado.");
         }
     }
 
-
-    //Eliminar usuario, se pide id y contraseña
+    // Eliminar usuario - sin requerir contraseña
     @PostMapping("/delete")
-    public boolean deleteUserWithPassword(@RequestBody DeleteUserDTO data) {
-        return userService.deleteWithPassword(data.getIdUsuario(), data.getContraseniaUsuario());
+    public boolean deleteUser(@RequestBody UpdateUserDTO data) {
+        return userService.deleteUser(data.getIdUsuario());
     }
-
 
     @PostMapping("/login")
     public boolean login(@RequestBody User user) {
         return userService.login(user);
     }
-
-
-
-
 }
-

@@ -50,70 +50,46 @@ public class UserService {
         return MD5.getMd5("" + user.getIdUsuario() + user.getContraseniaUsuario());
     }
 
-    // Cambio de nombre y contraseña
-    public boolean updateUserWithValidation(UpdateUserDTO data) {
+    // Cambio de nombre y contraseña - sin validación de contraseña
+    public boolean updateUser(UpdateUserDTO data) {
         Optional<User> userOpt = userRepository.findById(data.getIdUsuario());
 
         if (userOpt.isPresent()) {
             User user = userOpt.get();
 
-            // Crear un usuario temporal para verificar la contraseña actual
-            User tempUser = new User();
-            tempUser.setIdUsuario(data.getIdUsuario());
-            tempUser.setContraseniaUsuario(data.getContraseniaActual());
-
-            // Aplicar bcrypt de la misma manera que en la versión original
-            String hashedPassword = bcrypt(tempUser, 10);
-
-            if (user.getContraseniaUsuario().equals(hashedPassword)) {
-                if (data.getNuevoNombreUsuario() != null && !data.getNuevoNombreUsuario().isEmpty()) {
-                    user.setNombreUsuario(data.getNuevoNombreUsuario());
-                }
-
-                if (data.getNuevaContrasenia() != null && !data.getNuevaContrasenia().isEmpty()) {
-                    // Crear un usuario temporal para la nueva contraseña
-                    User newPasswordUser = new User();
-                    newPasswordUser.setIdUsuario(data.getIdUsuario());
-                    newPasswordUser.setContraseniaUsuario(data.getNuevaContrasenia());
-
-                    // Aplicar bcrypt a la nueva contraseña
-                    String newHashedPassword = bcrypt(newPasswordUser, 10);
-                    user.setContraseniaUsuario(newHashedPassword);
-                }
-
-                userRepository.save(user);
-                return true;
+            if (data.getNuevoNombreUsuario() != null && !data.getNuevoNombreUsuario().isEmpty()) {
+                user.setNombreUsuario(data.getNuevoNombreUsuario());
             }
+
+            if (data.getNuevaContrasenia() != null && !data.getNuevaContrasenia().isEmpty()) {
+                // Crear un usuario temporal para la nueva contraseña
+                User newPasswordUser = new User();
+                newPasswordUser.setIdUsuario(data.getIdUsuario());
+                newPasswordUser.setContraseniaUsuario(data.getNuevaContrasenia());
+
+                // Aplicar bcrypt a la nueva contraseña
+                String newHashedPassword = bcrypt(newPasswordUser, 10);
+                user.setContraseniaUsuario(newHashedPassword);
+            }
+
+            userRepository.save(user);
+            return true;
         }
 
         return false;
     }
 
-    // Eliminar usuario
-    public boolean deleteWithPassword(int idUsuario, String contraseniaUsuario) {
+    // Eliminar usuario - sin validación de contraseña
+    public boolean deleteUser(int idUsuario) {
         Optional<User> userOpt = userRepository.findById(idUsuario);
 
         if (userOpt.isPresent()) {
-            User user = userOpt.get();
-
-            // Crear un usuario temporal para verificar la contraseña
-            User tempUser = new User();
-            tempUser.setIdUsuario(idUsuario);
-            tempUser.setContraseniaUsuario(contraseniaUsuario);
-
-            // Aplicar bcrypt de la misma manera que en la versión original
-            String hashedPassword = bcrypt(tempUser, 10);
-
-            if (user.getContraseniaUsuario().equals(hashedPassword)) {
-                userRepository.deleteById(idUsuario);
-                return true;
-            }
+            userRepository.deleteById(idUsuario);
+            return true;
         }
 
         return false;
     }
-
-
 
     // Login
     public boolean login(User usuario) {
@@ -129,6 +105,4 @@ public class UserService {
         }
         return false;
     }
-
-
 }
