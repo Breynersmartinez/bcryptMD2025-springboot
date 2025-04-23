@@ -1,6 +1,5 @@
 package com.example.bcrypt2025.Service;
 
-
 import com.example.bcrypt2025.DTO.UpdateUserDTO;
 import com.example.bcrypt2025.MD5.MD5;
 import com.example.bcrypt2025.Model.User;
@@ -8,13 +7,9 @@ import com.example.bcrypt2025.Repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
-import java.util.List;
-
 
 @Service
 public class UserService {
-
-
 
     @Autowired
     UserRepository userRepository;
@@ -23,8 +18,7 @@ public class UserService {
         return userRepository.findById(idUsuario);
     }
 
-
-    //Registro de usuario
+    // Registro de usuario
     public void save(User user) {
         int id = user.getIdUsuario();
 
@@ -33,28 +27,58 @@ public class UserService {
             throw new IllegalArgumentException("Este ID ya está en uso por otro usuario.");
         }
 
-        String input = id + user.getContraseniaUsuario();
-        String hashedPassword = aplicarMD5Recursivo(input, 10);
+        // Encriptar contraseña usando el método bcrypt exactamente como en la versión original
+        String hashedPassword = bcrypt(user, 10);
         user.setContraseniaUsuario(hashedPassword);
         userRepository.save(user);
     }
 
-    //Cambio de nombre y contraseña
+    // Método bcrypt recursivo que replica exactamente la lógica original
+    private String bcrypt(User user, int cost) {
+        if (cost >= 1) {
+            // Aplicar salt y actualizar la contraseña en el objeto
+            String salted = salt(user);
+            user.setContraseniaUsuario(salted);
+            // Llamada recursiva con cost-1
+            return bcrypt(user, cost - 1);
+        }
+        return user.getContraseniaUsuario();
+    }
+
+    // Método salt que replica exactamente la lógica original
+    private String salt(User user) {
+        return MD5.getMd5("" + user.getIdUsuario() + user.getContraseniaUsuario());
+    }
+
+    // Cambio de nombre y contraseña
     public boolean updateUserWithValidation(UpdateUserDTO data) {
         Optional<User> userOpt = userRepository.findById(data.getIdUsuario());
 
         if (userOpt.isPresent()) {
             User user = userOpt.get();
-            String hashedInput = aplicarMD5Recursivo(data.getIdUsuario() + data.getContraseniaActual(), 10);
 
-            if (user.getContraseniaUsuario().equals(hashedInput)) {
+            // Crear un usuario temporal para verificar la contraseña actual
+            User tempUser = new User();
+            tempUser.setIdUsuario(data.getIdUsuario());
+            tempUser.setContraseniaUsuario(data.getContraseniaActual());
+
+            // Aplicar bcrypt de la misma manera que en la versión original
+            String hashedPassword = bcrypt(tempUser, 10);
+
+            if (user.getContraseniaUsuario().equals(hashedPassword)) {
                 if (data.getNuevoNombreUsuario() != null && !data.getNuevoNombreUsuario().isEmpty()) {
                     user.setNombreUsuario(data.getNuevoNombreUsuario());
                 }
 
                 if (data.getNuevaContrasenia() != null && !data.getNuevaContrasenia().isEmpty()) {
-                    String nuevaHash = aplicarMD5Recursivo(data.getIdUsuario() + data.getNuevaContrasenia(), 10);
-                    user.setContraseniaUsuario(nuevaHash);
+                    // Crear un usuario temporal para la nueva contraseña
+                    User newPasswordUser = new User();
+                    newPasswordUser.setIdUsuario(data.getIdUsuario());
+                    newPasswordUser.setContraseniaUsuario(data.getNuevaContrasenia());
+
+                    // Aplicar bcrypt a la nueva contraseña
+                    String newHashedPassword = bcrypt(newPasswordUser, 10);
+                    user.setContraseniaUsuario(newHashedPassword);
                 }
 
                 userRepository.save(user);
@@ -65,16 +89,22 @@ public class UserService {
         return false;
     }
 
-
-    //Eliminar usuario
+    // Eliminar usuario
     public boolean deleteWithPassword(int idUsuario, String contraseniaUsuario) {
         Optional<User> userOpt = userRepository.findById(idUsuario);
 
         if (userOpt.isPresent()) {
             User user = userOpt.get();
-            String hashedInput = aplicarMD5Recursivo(idUsuario + contraseniaUsuario, 10);
 
-            if (user.getContraseniaUsuario().equals(hashedInput)) {
+            // Crear un usuario temporal para verificar la contraseña
+            User tempUser = new User();
+            tempUser.setIdUsuario(idUsuario);
+            tempUser.setContraseniaUsuario(contraseniaUsuario);
+
+            // Aplicar bcrypt de la misma manera que en la versión original
+            String hashedPassword = bcrypt(tempUser, 10);
+
+            if (user.getContraseniaUsuario().equals(hashedPassword)) {
                 userRepository.deleteById(idUsuario);
                 return true;
             }
@@ -83,28 +113,18 @@ public class UserService {
         return false;
     }
 
-
-    //Login
+    // Login
     public boolean login(User usuario) {
         Optional<User> userOpt = userRepository.findById(usuario.getIdUsuario());
 
         if (userOpt.isPresent()) {
             User userBD = userOpt.get();
-            String md5HashedInput = aplicarMD5Recursivo(usuario.getIdUsuario() + usuario.getContraseniaUsuario(), 10);
 
-            return userBD.getContraseniaUsuario().equals(md5HashedInput);
+            // Aplicar bcrypt exactamente igual que en la versión original
+            String hashedPassword = bcrypt(usuario, 10);
+
+            return userBD.getContraseniaUsuario().equals(hashedPassword);
         }
         return false;
     }
-
-
-    // Metodo  MD5 recursivo
-    private String aplicarMD5Recursivo(String input, int veces) {
-        String resultado = input;
-        for (int i = 0; i < veces; i++) {
-            resultado = MD5.getMd5(resultado);
-        }
-        return resultado;
-    }
-
 }
