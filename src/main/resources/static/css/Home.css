@@ -237,3 +237,31 @@ body {
     border-top: 1px solid #e0e0e0;
     font-size: 14px;
 }
+
+/* Estilos adicionales para la autenticación */
+.btn-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.user-welcome {
+    display: none; /* Oculto por defecto */
+    align-items: center;
+    gap: 10px;
+    padding: 10px 15px;
+    background-color: #f0f8ff;
+    border-radius: 5px;
+    border-left: 3px solid #ff9f51;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+.user-welcome i {
+    color: #1d3557;
+}
+
+.user-welcome span {
+    color: #ff9f51;
+    font-weight: bold;
+}

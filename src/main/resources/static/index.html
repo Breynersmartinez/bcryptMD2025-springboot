@@ -16,8 +16,8 @@
             <span>bcrypt</span>
         </div>
         <nav class="navigation">
-            <a href="#">Home</a>
-            <a href="#">Registro</a>
+            <a href="index.html">Home</a>
+            <a href="register.html" id="registroLink" class="btn-disabled">Registro</a>
             <a href="#">Documentación</a>
             <a href="#">Contacto</a>
         </nav>
@@ -25,6 +25,11 @@
 
     <main class="main-content">
         <div class="welcome-section">
+            <div class="user-welcome" id="userWelcome">
+                <i class="fas fa-user-circle"></i>
+                Bienvenido, <span id="userName"></span>
+            </div>
+
             <h1>Bienvenido a <span>bcrypt</span></h1>
             <p class="subtitle">La plataforma de encriptación y autenticación más segura para tus aplicaciones</p>
 
@@ -55,11 +60,14 @@
             </div>
 
             <div class="cta-buttons">
-                <a href="login.html" class="btn btn-primary">
+                <a href="login.html" class="btn btn-primary" id="loginBtn">
                     <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
                 </a>
-                <a href="register.html" class="btn btn-secondary">
-                    <i class="fas fa-user-plus"></i> Registrarse
+                <a href="register.html" class="btn btn-secondary btn-disabled" id="registerBtn">
+                    <i class="fas fa-user-plus"></i> Registro
+                </a>
+                <a href="#" class="btn btn-primary" id="logoutBtn" style="display: none;">
+                    <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
                 </a>
             </div>
         </div>
@@ -92,8 +100,12 @@
         </div>
     </footer>
 </div>
-<div class="status-bar">
+<div class="status-bar" id="statusBar">
     Usuario Autenticado: Sin Acceso
 </div>
+
+
+    <script src="js/Home.js"></script>
+
 </body>
 </html>
