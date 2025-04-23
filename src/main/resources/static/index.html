@@ -17,7 +17,7 @@
         </div>
         <nav class="navigation">
             <a href="#">Home</a>
-            <a href="#" id="registroLink" style="display: none;">Registro</a> <!-- Registro habilitado solo si logueado -->
+            <a href="#">Registro</a>
             <a href="#">Documentación</a>
             <a href="#">Contacto</a>
         </nav>
@@ -28,17 +28,57 @@
             <h1>Bienvenido a <span>bcrypt</span></h1>
             <p class="subtitle">La plataforma de encriptación y autenticación más segura para tus aplicaciones</p>
 
-            <div id="userWelcome" style="display: none;">
-                <h2>Bienvenido, <span id="userName"></span>!</h2>
+            <div class="security-showcase">
+                <div class="security-icon">
+                    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M100 15L30 45v45c0 55.23 29.77 106.91 70 120 40.23-13.09 70-64.77 70-120V45L100 15z" fill="#ff9f51" stroke="#1d3557" stroke-width="8"/>
+                        <path d="M100 60a25 25 0 00-25 25v15h50V85a25 25 0 00-25-25z" fill="white" stroke="#1d3557" stroke-width="6"/>
+                        <rect x="75" y="105" width="50" height="40" rx="5" fill="white" stroke="#1d3557" stroke-width="6"/>
+                        <circle cx="100" cy="125" r="8" fill="#1d3557"/>
+                        <path d="M100 125v10" stroke="#1d3557" stroke-width="6" stroke-linecap="round"/>
+                    </svg>
+                    <p>Seguridad avanzada</p>
+                </div>
+                <div class="security-icon">
+                    <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="35" y="45" width="130" height="140" rx="10" fill="#94b7d2" stroke="#1d3557" stroke-width="6"/>
+                        <rect x="55" y="25" width="90" height="140" rx="5" fill="white" stroke="#1d3557" stroke-width="6"/>
+                        <rect x="75" y="95" width="50" height="20" rx="3" fill="white" stroke="#1d3557" stroke-width="4"/>
+                        <text x="83" y="110" font-family="monospace" font-size="18" fill="#1d3557">****</text>
+                        <line x1="75" y1="135" x2="125" y2="135" stroke="#1d3557" stroke-width="4"/>
+                        <line x1="75" y1="155" x2="115" y2="155" stroke="#1d3557" stroke-width="4"/>
+                        <path d="M145 75a25 25 0 11-50 0 25 25 0 0150 0z" fill="#ff9f51" stroke="#1d3557" stroke-width="5"/>
+                        <path d="M120 60l30 30M120 90l30-30" stroke="#1d3557" stroke-width="6" stroke-linecap="round"/>
+                    </svg>
+                    <p>Verificación de identidad</p>
+                </div>
             </div>
 
             <div class="cta-buttons">
-                <a href="login.html" class="btn btn-primary" id="loginBtn">
+                <a href="login.html" class="btn btn-primary">
                     <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
                 </a>
-                <a href="register.html" class="btn btn-secondary" id="registerBtn">
-                    <i class="fas fa-user-plus"></i> Registrar
+                <a href="register.html" class="btn btn-secondary">
+                    <i class="fas fa-user-plus"></i> Registrarse
                 </a>
+            </div>
+        </div>
+
+        <div class="features">
+            <div class="feature-card">
+                <i class="fas fa-bolt"></i>
+                <h3>Rápido</h3>
+                <p>Nuestros algoritmos de encriptación están optimizados para ofrecer máxima velocidad sin comprometer la seguridad.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Seguro</h3>
+                <p>Utilizamos los estándares más avanzados de encriptación para proteger tus datos e información sensible.</p>
+            </div>
+            <div class="feature-card">
+                <i class="fas fa-code"></i>
+                <h3>Fácil implementación</h3>
+                <p>Nuestra API está diseñada para que puedas integrar nuestros servicios de manera sencilla en tus aplicaciones.</p>
             </div>
         </div>
     </main>
@@ -46,26 +86,14 @@
     <footer class="footer">
         <p>© 2025 bcrypt. Todos los derechos reservados.</p>
         <div class="social-links">
-            <!-- Agregar enlaces a redes sociales aquí -->
+            <a href="#"><i class="fab fa-github"></i></a>
+            <a href="#"><i class="fab fa-twitter"></i></a>
+            <a href="#"><i class="fab fa-linkedin"></i></a>
         </div>
     </footer>
 </div>
-
-<script>
-    // Simula la verificación del estado de sesión
-    localStorage.setItem('isLoggedIn', 'true'); // Cambiarlo dinámicamente según el estado de sesión real
-    localStorage.setItem('userName', 'Breiner'); // Obtén el nombre del usuario logueado (a través de sesión, localStorage, o backend)
-
-    if (isLoggedIn) {
-        // Mostrar nombre y habilitar registro
-        document.getElementById('userWelcome').style.display = 'block';
-        document.getElementById('userName').textContent = userName;
-        document.getElementById('registroLink').style.display = 'inline-block';
-        document.getElementById('loginBtn').style.display = 'none'; // Ocultar login si está logueado
-    } else {
-        document.getElementById('registerBtn').style.display = 'none'; // Ocultar registro si no está logueado
-    }
-</script>
-
+<div class="status-bar">
+    Usuario Autenticado: Sin Acceso
+</div>
 </body>
 </html>
