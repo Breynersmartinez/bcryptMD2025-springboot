@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <title>Bienvenido | Nombre de tu Sitio</title>
-    <link rel="stylesheet" href="css/styles.css"/>
+    <title>Bienvenido | Bcrypt2025</title>
+    <link rel="stylesheet" href="css/Home.css"/>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
@@ -12,53 +12,60 @@
 <div class="container">
     <header class="header">
         <div class="logo">
-            <i class="fas fa-rocket"></i>
-            <span>Bcrypt2025</span>
+            <i class="fas fa-shield-alt"></i>
+            <span>bcrypt</span>
         </div>
+        <nav class="navigation">
+            <a href="#">Home</a>
+            <a href="#" id="registroLink" style="display: none;">Registro</a> <!-- Registro habilitado solo si logueado -->
+            <a href="#">Documentación</a>
+            <a href="#">Contacto</a>
+        </nav>
     </header>
 
     <main class="main-content">
         <div class="welcome-section">
-            <h1>Bienvenido a <span>Bcrypt2025</span></h1>
-            <p class="subtitle">La mejor plataforma para [descripción breve de tu servicio]</p>
+            <h1>Bienvenido a <span>bcrypt</span></h1>
+            <p class="subtitle">La plataforma de encriptación y autenticación más segura para tus aplicaciones</p>
+
+            <div id="userWelcome" style="display: none;">
+                <h2>Bienvenido, <span id="userName"></span>!</h2>
+            </div>
 
             <div class="cta-buttons">
-                <a href="login.html" class="btn btn-primary">
+                <a href="login.html" class="btn btn-primary" id="loginBtn">
                     <i class="fas fa-sign-in-alt"></i> Iniciar Sesión
                 </a>
-                <a href="register.html" class="btn btn-secondary">
-                    <i class="fas fa-user-plus"></i> Registrarse
+                <a href="register.html" class="btn btn-secondary" id="registerBtn">
+                    <i class="fas fa-user-plus"></i> Registrar
                 </a>
-            </div>
-        </div>
-
-        <div class="features">
-            <div class="feature-card">
-
-                <h3>Rápido</h3>
-                <p>Nuestra plataforma está optimizada para máxima velocidad.</p>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-shield-alt"></i>
-                <h3>Seguro</h3>
-                <p>Tus datos están protegidos con encriptación de última generación.</p>
-            </div>
-            <div class="feature-card">
-                <i class="fas fa-smile"></i>
-                <h3>Fácil de usar</h3>
-                <p>Interfaz intuitiva diseñada para todos los usuarios.</p>
             </div>
         </div>
     </main>
 
     <footer class="footer">
-        <p>© 2023 NombreSitio. Todos los derechos reservados.</p>
+        <p>© 2025 bcrypt. Todos los derechos reservados.</p>
         <div class="social-links">
-            <a href="#"><i class="fab fa-facebook"></i></a>
-            <a href="#"><i class="fab fa-twitter"></i></a>
-            <a href="#"><i class="fab fa-instagram"></i></a>
+            <!-- Agregar enlaces a redes sociales aquí -->
         </div>
     </footer>
 </div>
+
+<script>
+    // Simula la verificación del estado de sesión
+    localStorage.setItem('isLoggedIn', 'true'); // Cambiarlo dinámicamente según el estado de sesión real
+    localStorage.setItem('userName', 'Breiner'); // Obtén el nombre del usuario logueado (a través de sesión, localStorage, o backend)
+
+    if (isLoggedIn) {
+        // Mostrar nombre y habilitar registro
+        document.getElementById('userWelcome').style.display = 'block';
+        document.getElementById('userName').textContent = userName;
+        document.getElementById('registroLink').style.display = 'inline-block';
+        document.getElementById('loginBtn').style.display = 'none'; // Ocultar login si está logueado
+    } else {
+        document.getElementById('registerBtn').style.display = 'none'; // Ocultar registro si no está logueado
+    }
+</script>
+
 </body>
 </html>
