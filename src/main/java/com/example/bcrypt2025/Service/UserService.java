@@ -45,10 +45,16 @@ public class UserService {
         return user.getContraseniaUsuario();
     }
 
-    // Método salt que replica exactamente la lógica original
+
+
+
+    // Metodo salt que replica exactamente la logica original
     private String salt(User user) {
         return MD5.getMd5("" + user.getIdUsuario() + user.getContraseniaUsuario());
     }
+
+
+
 
     // Cambio de nombre y contraseña - sin validación de contraseña
     public boolean updateUser(UpdateUserDTO data) {
@@ -62,12 +68,12 @@ public class UserService {
             }
 
             if (data.getNuevaContrasenia() != null && !data.getNuevaContrasenia().isEmpty()) {
-                // Crear un usuario temporal para la nueva contraseña
+                // Creacion de  un usuario temporal para la nueva contraseña
                 User newPasswordUser = new User();
                 newPasswordUser.setIdUsuario(data.getIdUsuario());
                 newPasswordUser.setContraseniaUsuario(data.getNuevaContrasenia());
 
-                // Aplicar bcrypt a la nueva contraseña
+                // Aplicacion de  bcrypt a la nueva contraseña
                 String newHashedPassword = bcrypt(newPasswordUser, 10);
                 user.setContraseniaUsuario(newHashedPassword);
             }
@@ -98,7 +104,7 @@ public class UserService {
         if (userOpt.isPresent()) {
             User userBD = userOpt.get();
 
-            // Aplicar bcrypt exactamente igual que en la versión original
+            // Aplicacion de bcrypt exactamente igual que en la versión original
             String hashedPassword = bcrypt(usuario, 10);
 
             return userBD.getContraseniaUsuario().equals(hashedPassword);

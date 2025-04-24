@@ -22,6 +22,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    // Traer el usuario por id
     @GetMapping("/{idUsuario}")
     public ResponseEntity<?> getById(@PathVariable("idUsuario") int idUsuario) {
         Optional<User> user = userService.getUser(idUsuario);
@@ -34,6 +35,12 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(" Usuario no encontrado");
         }
     }
+
+    /*
+    @RequestBody
+     indica que Spring debe realizar  el cuerpo de una solicitud en un objeto,
+     que se pasa como parámetro del método controlador.
+     */
 
     // Registro de usuario
     @PostMapping
