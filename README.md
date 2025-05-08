@@ -11,8 +11,8 @@ Este proyecto es una aplicacion web construida con **Spring Boot**, que permite 
 - Clona el repositorio
 
 ```bash
-git clone https://github.com/tu-usuario/tu-repo.git
-cd tu-repo
+git clone https://github.com/Breynersmartinez/bcryptMD2025-springboot.git
+
 ```
 
 ️## Configura la base de datos
