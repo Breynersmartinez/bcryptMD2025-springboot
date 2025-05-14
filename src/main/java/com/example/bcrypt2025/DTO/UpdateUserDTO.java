@@ -1,5 +1,9 @@
 package com.example.bcrypt2025.DTO;
 
+
+// Clase para actualizar el usuario
+// Se mantiene la contraseña actual para compatibilidad
+
 public class UpdateUserDTO {
     private int idUsuario;
     private String contraseniaActual; // Ya no se utilizará pero se mantiene para compatibilidad

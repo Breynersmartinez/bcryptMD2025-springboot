@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <title>Mantenimiento de Usuarios | Bcrypt2025</title>
     <link rel="stylesheet" href="css/Register.css" />
+    <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/128/306/306047.png" />
 </head>
 <body>
 <div class="container">
@@ -22,6 +23,16 @@
     <h1>Mantenimiento de Usuarios</h1>
 
     <div class="message" id="messageBox"></div>
+
+    <!-- Usuario actualmente seleccionado - Nueva sección -->
+    <div class="selected-user" id="selectedUserPanel" style="display: none; margin-bottom: 20px; padding: 10px; background-color: #f0f8ff; border-radius: 5px; border: 1px solid #add8e6;">
+        <h3 style="margin-top: 0;">Usuario Seleccionado</h3>
+        <p><strong>ID:</strong> <span id="selectedUserId"></span></p>
+        <p><strong>Nombre:</strong> <span id="selectedUserName"></span></p>
+        <button id="clearSelectedUserBtn" class="btn-secondary" style="margin-top: 10px;">
+            Deseleccionar Usuario
+        </button>
+    </div>
 
     <div class="tab-buttons">
         <button class="tab-btn active" data-tab="search">Consultar Usuario</button>
@@ -46,6 +57,9 @@
             <h3>Información del Usuario</h3>
             <p><strong>ID:</strong> <span id="displayUserId"></span></p>
             <p><strong>Nombre:</strong> <span id="displayUserName"></span></p>
+            <button onclick="selectDisplayedUser()" class="btn-secondary" style="margin-top: 10px;">
+                Seleccionar Este Usuario
+            </button>
         </div>
     </div>
 
@@ -85,7 +99,12 @@
             <h2>Modificar Usuario</h2>
             <div class="input-group">
                 <label for="updateId">ID de Usuario</label>
-                <input type="number" id="updateId" placeholder="Ingresa el ID del usuario" />
+                <div style="display: flex; align-items: center;">
+                    <input type="number" id="updateId" placeholder="Ingresa el ID del usuario" />
+                    <button onclick="useSelectedUser('update')" class="btn-secondary" style="margin-left: 10px; white-space: nowrap;">
+                        Usar Seleccionado
+                    </button>
+                </div>
             </div>
 
             <div class="input-group">
@@ -115,7 +134,12 @@
             <h2>Eliminar Usuario</h2>
             <div class="input-group">
                 <label for="deleteId">ID de Usuario</label>
-                <input type="number" id="deleteId" placeholder="Ingresa el ID del usuario" />
+                <div style="display: flex; align-items: center;">
+                    <input type="number" id="deleteId" placeholder="Ingresa el ID del usuario" />
+                    <button onclick="useSelectedUser('delete')" class="btn-secondary" style="margin-left: 10px; white-space: nowrap;">
+                        Usar Seleccionado
+                    </button>
+                </div>
             </div>
 
             <div class="form-buttons">
@@ -138,9 +162,16 @@
     <div class="status-bar" id="statusBar">
         Aplicación de Mantenimiento de Usuarios
     </div>
+
 </div>
 
 <script>
+    // Variables para almacenar el usuario seleccionado
+    let selectedUser = {
+        id: null,
+        name: null
+    };
+
     document.addEventListener('DOMContentLoaded', function() {
         // Verificar si hay un usuario logueado
         const userId = localStorage.getItem("userId");
@@ -167,6 +198,11 @@
             alert('Has cerrado sesión correctamente');
             window.location.href = 'index.html';
         });
+
+        // Configurar el botón para deseleccionar usuario
+        document.getElementById('clearSelectedUserBtn').addEventListener('click', function() {
+            clearSelectedUser();
+        });
     });
 
     // Configuración de pestañas
@@ -186,6 +222,16 @@
                 // Mostrar el contenido correspondiente
                 const tabId = button.getAttribute('data-tab');
                 document.getElementById(`${tabId}-tab`).classList.add('active');
+
+                // Si hay un usuario seleccionado y estamos cambiando a la pestaña de actualizar o eliminar,
+                // rellenar automáticamente el campo de ID
+                if (selectedUser.id) {
+                    if (tabId === 'update') {
+                        document.getElementById('updateId').value = selectedUser.id;
+                    } else if (tabId === 'delete') {
+                        document.getElementById('deleteId').value = selectedUser.id;
+                    }
+                }
 
                 // Limpiar mensajes al cambiar de pestaña
                 hideMessage();
@@ -225,6 +271,48 @@
             });
     }
 
+    // Función para seleccionar el usuario que se está mostrando
+    function selectDisplayedUser() {
+        const userId = document.getElementById('displayUserId').textContent;
+        const userName = document.getElementById('displayUserName').textContent;
+
+        if (userId && userName) {
+            selectedUser.id = userId;
+            selectedUser.name = userName;
+
+            // Actualizar panel de usuario seleccionado
+            document.getElementById('selectedUserId').textContent = userId;
+            document.getElementById('selectedUserName').textContent = userName;
+            document.getElementById('selectedUserPanel').style.display = 'block';
+
+            showMessage(`Usuario ID: ${userId} seleccionado para operaciones`, 'success');
+        }
+    }
+
+    // Función para usar el usuario seleccionado en un formulario
+    function useSelectedUser(formType) {
+        if (!selectedUser.id) {
+            showMessage('No hay ningún usuario seleccionado', 'error');
+            return;
+        }
+
+        if (formType === 'update') {
+            document.getElementById('updateId').value = selectedUser.id;
+        } else if (formType === 'delete') {
+            document.getElementById('deleteId').value = selectedUser.id;
+        }
+
+        showMessage(`ID de usuario aplicado al formulario`, 'success');
+    }
+
+    // Función para limpiar el usuario seleccionado
+    function clearSelectedUser() {
+        selectedUser.id = null;
+        selectedUser.name = null;
+        document.getElementById('selectedUserPanel').style.display = 'none';
+        showMessage('Usuario deseleccionado', 'success');
+    }
+
     // Función para registrar un nuevo usuario
     function registerUser() {
         const userId = document.getElementById('regId').value;
@@ -260,6 +348,18 @@
             })
             .then(data => {
                 showMessage('Usuario registrado correctamente', 'success');
+
+                // Preguntar si desea seleccionar el usuario recién creado
+                if (confirm('Usuario registrado con éxito. ¿Deseas seleccionar este usuario para otras operaciones?')) {
+                    selectedUser.id = userId;
+                    selectedUser.name = userName;
+
+                    // Actualizar panel de usuario seleccionado
+                    document.getElementById('selectedUserId').textContent = userId;
+                    document.getElementById('selectedUserName').textContent = userName;
+                    document.getElementById('selectedUserPanel').style.display = 'block';
+                }
+
                 clearForm('register');
             })
             .catch(error => {
@@ -307,7 +407,12 @@
             })
             .then(data => {
                 showMessage('Usuario actualizado correctamente', 'success');
-                clearForm('update');
+
+                // Si el usuario actualizado es el mismo que el seleccionado, actualizar su nombre
+                if (selectedUser.id && parseInt(selectedUser.id) === parseInt(userId) && newName) {
+                    selectedUser.name = newName;
+                    document.getElementById('selectedUserName').textContent = newName;
+                }
 
                 // Si el usuario actualizado es el mismo que está logueado, actualizar localStorage
                 const loggedUserId = localStorage.getItem("userId");
@@ -316,6 +421,8 @@
                     document.getElementById('loggedUserName').textContent = newName;
                     document.getElementById('statusBar').textContent = `Usuario Autenticado: ${newName} (ID: ${loggedUserId})`;
                 }
+
+                clearForm('update');
             })
             .catch(error => {
                 showMessage(error.message, 'error');
@@ -328,6 +435,11 @@
 
         if (!userId) {
             showMessage('Por favor, ingresa el ID del usuario', 'error');
+            return;
+        }
+
+        // Confirmación antes de eliminar
+        if (!confirm('¿Estás seguro de que deseas eliminar este usuario? Esta acción no se puede deshacer.')) {
             return;
         }
 
@@ -346,6 +458,12 @@
             .then(success => {
                 if (success) {
                     showMessage('Usuario eliminado correctamente', 'success');
+
+                    // Si el usuario eliminado es el mismo que el seleccionado, limpiar la selección
+                    if (selectedUser.id && parseInt(selectedUser.id) === parseInt(userId)) {
+                        clearSelectedUser();
+                    }
+
                     clearForm('delete');
 
                     // Si el usuario eliminado es el mismo que está logueado, cerrar sesión
@@ -405,5 +523,6 @@
         }
     }
 </script>
+
 </body>
 </html>

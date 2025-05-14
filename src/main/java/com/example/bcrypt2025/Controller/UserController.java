@@ -19,14 +19,30 @@ import java.util.Optional;
 @RequestMapping("/usuarios")
 public class UserController {
 
+
+
     @Autowired
-    private UserService userService;
+    private final UserService userService;
+
+    
+    // Constructor de la clase UserController
+    public UserController(UserService userService)
+    {
+        this.userService = userService;
+    }
+
 
     // Traer el usuario por id
     @GetMapping("/{idUsuario}")
+    // @PathVariable indica que el valor de la variable idUsuario se extraerá de la URL y se pasará como argumento al método
     public ResponseEntity<?> getById(@PathVariable("idUsuario") int idUsuario) {
+
+        // Se utiliza Optional para manejar la posibilidad de que el usuario no exista
+        // Se utiliza el método getUser de la clase UserService para obtener el usuario
         Optional<User> user = userService.getUser(idUsuario);
 
+
+        // Si el usuario existe, se devuelve el usuario sin la contraseña y con un estado 200 OK
         if (user.isPresent()) {
             User usuarioSinContrasenia = user.get();
             usuarioSinContrasenia.setContraseniaUsuario(null); // Ocultar la contraseña
@@ -44,8 +60,13 @@ public class UserController {
 
     // Registro de usuario
     @PostMapping
+    // @RequestBody indica que el cuerpo de la solicitud se debe mapear al objeto User
     public ResponseEntity<?> registerUser(@RequestBody User user) {
+
+
+        // Verifica si el ID es nulo o negativo
         try {
+            
             userService.save(user);
             return ResponseEntity.ok("Usuario registrado correctamente.");
         } catch (IllegalArgumentException e) {
@@ -57,7 +78,12 @@ public class UserController {
 
     // Cambio de usuario o contraseña - sin validación de contraseña
     @PostMapping("/update")
+
+    // @RequestBody indica que el cuerpo de la solicitud se debe mapear al objeto UpdateUserDTO
+    // Se utiliza UpdateUserDTO para actualizar el usuario
     public ResponseEntity<String> updateUser(@RequestBody UpdateUserDTO data) {
+
+
         boolean updated = userService.updateUser(data);
 
         if (updated) {
@@ -73,8 +99,13 @@ public class UserController {
         return userService.deleteUser(data.getIdUsuario());
     }
 
+    // Login de usuario
     @PostMapping("/login")
+    // @RequestBody indica que el cuerpo de la solicitud se debe mapear al objeto User
+    // Se utiliza el objeto User para iniciar sesión
     public boolean login(@RequestBody User user) {
+
+        
         return userService.login(user);
     }
 }

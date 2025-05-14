@@ -3,7 +3,12 @@ package com.example.bcrypt2025.MD5;
 import java.math.BigInteger;
 import java.security.MessageDigest;
 
+
+// clase para encriptar la contraseña
 public class MD5 {
+
+    // Metodo para encriptar la contraseña
+    // Se utiliza el algoritmo MD5
     public static String getMd5(String input) {
         try {
 

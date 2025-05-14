@@ -25,6 +25,7 @@ git clone https://github.com/Breynersmartinez/bcryptMD2025-springboot.git
 ### Ejecuta el frontend (estático)
 - Abre el navegador de tu preferencia 
 - Ejecute la aplicacion de forma local http://localhost:8080
+- O puedes ingresar a la aplicacion por medio de este enlace:
 
 
 
@@ -70,7 +71,6 @@ git clone https://github.com/Breynersmartinez/bcryptMD2025-springboot.git
 
 ### DTOs
 - `UpdateUserDTO`: permite enviar datos para cambiar nombre o contraseña.
-- `DeleteUserDTO`: permite enviar ID y contraseña para validar la eliminación.
 
 ### `UserController.java`
 - Expone los endpoints REST para:
