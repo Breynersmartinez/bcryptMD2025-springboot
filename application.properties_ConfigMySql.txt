@@ -1,0 +1,10 @@
+
+spring.datasource.url=${URL_DB_BCRYPT_AZURE}
+spring.datasource.username=${USER_DB_BCRYPT_AZURE}
+
+spring.datasource.password=${PASSWORD_DB_BCRYPT_AZURE}
+spring.datasource.driver-class-name=com.mysql.cj.jdbc.Driver
+spring.jpa.show-sql=true
+
+spring.jpa.hibernate.naming.physical-strategy=org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+
